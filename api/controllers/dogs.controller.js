@@ -14,25 +14,18 @@ module.exports.create =(req, res, next) => {
   .catch(next);
 };
 
-module.exports.detail = (req, res, next) => {
-  Dog.findById(req.params.id)
-  .then((dog) => {
-    if (!dog) {
-      return next(createError(404, "Dog not found"));
-    }
-    res.json(dog)
-  })
-  .catch(next);
-};
+module.exports.detail = (req, res, next) => res.json(req.dog);
 
-module.exports.edit = (req, res, next) => {
-  Dog.findByIdAndUpdate(req.params.id)
-  .then()
-  .catch(next);
+//TODO limpiar req.body
+module.exports.update = (req, res, next) => {
+  Object.assign(req.dog, req.body);
+  req.dog.save()
+    .then(dog => (res.json(dog)))
+    .catch(next)
 };
 
 module.exports.delete = (req, res, next) => {
-  Dog.deleteOne(req.params.id)
+  Dog.deleteOne( {_id : req.dog.id })
   .then(() => res.status(204).send())
-  .catch(next);
+  .catch(next)
 };

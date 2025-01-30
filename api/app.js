@@ -9,12 +9,24 @@ const helmet = require('helmet')
 require('./config/db.config');
 
 const app = express();
+const { session, loadSessionUser } = require('./config/session.config');
 app.use(express.json());
 app.use(logger('dev'));
+app.use(session);
+app.use(loadSessionUser);
 app.use(helmet());
 
-const api = require('./config/routes/dogs.routes.config');
-app.use("/api/v1", api);
+app.use((req, res, next) => {
+  console.log(req.session);
+  console.log(req.user);
+  next();
+})
+
+const apiUsers = require('./config/routes/users.routes.config');
+app.use("/api/v1", apiUsers);
+
+const apiDogs = require('./config/routes/dogs.routes.config');
+app.use("/api/v1", apiDogs);
 
 //** Error Handling */
 app.use((req, res, next) => (next(createError(404, 'Route not found'))));
@@ -25,7 +37,11 @@ app.use((error, req, res, next) => {
     error = createError(400, error);
   } else if (error instanceof mongoose.Error.CastError && error.path === '_id') {
     error = createError(404, 'resource not found');
-  } else if(!error.status) {
+  } else if (error.message.includes("E11000")) {
+    //Duplicate keys
+    Object.keys(error.keyValue).forEach((key) => error.keyValue[key] = 'Already exists');
+    error = createError(409, { errors: error.keyValue});
+  } else if (!error.status) {
     error = createError(500, error);
   }
   console.error(error);
@@ -43,7 +59,7 @@ app.use((error, req, res, next) => {
   }
 
   res.status(error.status)
-  .json(data);
+  .json(data)
 })
 
 const port = process.env.PORT || 3001;

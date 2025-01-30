@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
+//TODO isActive / confirmation mail
+
+const ADMIN_USERS = (process.env.ADMIN_USERS || 'admin@example.org')
+  .split(',')
+  .map(email => email.trim());
 
 const schema = new mongoose.Schema({
   image: { type: String },
@@ -60,5 +66,31 @@ schema.virtual("favoriteAnimals", {
     foreignField: 'likedBy',
     justOne: false
 });
+
+schema.pre("save", function (next) {
+  const user = this;
+
+  if (ADMIN_USERS.includes(user.email)) {
+    user.role = 'admin';
+  }
+
+  if (user.isModified("password")) {
+    bcrypt
+      .hash(user.password, 10)
+      .then((encryptedPassword) => {
+        user.password = encryptedPassword;
+        next();
+      })
+      .catch(next)
+  } else {
+    next();
+  }
+});
+
+schema.methods.checkPassword = function (password) {
+  return bcrypt.compare(password, this.password);
+  console.log('password:',password);
+  console.log('schema password:',this.password);
+};
 
 module.exports = mongoose.model('User', schema);
