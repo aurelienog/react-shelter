@@ -1,4 +1,4 @@
-const { Animal } = require('../models/animal.model');
+const { Animal, Dog, Cat, OtherAnimal } = require('../models/animal.model');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 
