@@ -33,6 +33,12 @@ module.exports.auth = (req, res, next) => {
     .catch(next);
 };
 
+module.exports.isOwner = (req, res, next) => {
+      if (req.user.id !== req.params.id) {
+      return next(createError(403, "forbidden"));
+    } else next()
+}
+
 module.exports.checkRole = (role) => {
   return (req, res, next) => {
     if(req.user?.role === role) {

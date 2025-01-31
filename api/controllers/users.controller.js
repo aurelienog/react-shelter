@@ -14,9 +14,6 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.update = (req, res, next) => {
-  if (req.user.id !== req.params.id) {
-    return next(createError(403, "forbidden"));
-  }
 
   Object.assign(req.user, req.body);
 
@@ -27,8 +24,16 @@ module.exports.update = (req, res, next) => {
 };
 
 module.exports.delete = (req, res, next) => {
+
   User.deleteOne({_id : req.user.id})
-    .then(() => res.status(204).send())
+    .then(() => {
+      req.session.destroy((err) => {
+        if (err) {
+          return next(err);
+        }
+      })
+      res.status(204).send();
+    })
     .catch(next)
 };
 
@@ -50,4 +55,15 @@ module.exports.login = (req, res, next) => {
         });
     })
     .catch(next)
+};
+
+module.exports.logout = (req, res, next) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.clearCookie('connect.sid');  // Limpiamos la cookie de la sesión
+    return res.status(204).send();
+  })
 };

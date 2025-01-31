@@ -5,11 +5,11 @@ const secure = require('../../middlewares/secure.mid');
 const users = require('../../controllers/users.controller');
 
 api.post('/users', users.create);
-api.get('/users/:id', secure.auth, usersMid.exists, users.detail);
-api.patch('/users/:id', secure.auth, usersMid.exists, users.update);
-api.delete('/users/:id', secure.auth, usersMid.exists, users.delete);
+api.get('/users/:id', secure.auth, users.detail);
+api.patch('/users/:id', secure.auth, secure.isOwner, users.update);
+api.delete('/users/:id', secure.auth, secure.isOwner, users.delete);
 
 api.post('/login', users.login);
-api.get('/logout') //TODO LOGOUT
+api.post('/logout', secure.auth, users.logout) 
 
 module.exports = api
