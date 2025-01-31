@@ -32,18 +32,9 @@ const schema = new mongoose.Schema({
     enum: ['admin', 'guest'],
     default: 'guest'
   },
-  favoriteDogs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Dog",
-    }
-  ],
-  favoriteCats: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Cat",
-    }
-  ],
+  favoriteAnimals : [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Animal" }]
 }, 
 {
   timestamps: true,
@@ -59,13 +50,6 @@ const schema = new mongoose.Schema({
   },
 }
 );
-
-schema.virtual("favoriteAnimals", {
-  ref: ['Dog', 'Cat'], // modelo "Animal" que agrupa Dog y Cat
-    localField: '_id',
-    foreignField: 'likedBy',
-    justOne: false
-});
 
 schema.pre("save", function (next) {
   const user = this;

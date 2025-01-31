@@ -5,28 +5,26 @@ const logger = require('morgan');
 const createError = require('http-errors');
 const mongoose = require("mongoose");
 const helmet = require('helmet')
+const secure = require("./middlewares/secure.mid");
 
 require('./config/db.config');
 
 const app = express();
+
+const cors = require('./config/cors.config');
 const { session, loadSessionUser } = require('./config/session.config');
 app.use(express.json());
 app.use(logger('dev'));
+app.use(secure.cleanBody);
 app.use(session);
 app.use(loadSessionUser);
 app.use(helmet());
 
-app.use((req, res, next) => {
-  console.log(req.session);
-  console.log(req.user);
-  next();
-})
-
 const apiUsers = require('./config/routes/users.routes.config');
 app.use("/api/v1", apiUsers);
 
-const apiDogs = require('./config/routes/dogs.routes.config');
-app.use("/api/v1", apiDogs);
+const apiAnimals = require('./config/routes/Animals.routes.config');
+app.use("/api/v1", apiAnimals);
 
 //** Error Handling */
 app.use((req, res, next) => (next(createError(404, 'Route not found'))));

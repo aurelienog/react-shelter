@@ -1,15 +1,15 @@
-const Dog = require('../models/dog.model');
+const { Animal } = require('../models/animal.model');
 const createError = require('http-errors');
 
 //TODO : reutilisable para la lista de perros del usuario
 module.exports.exists = (req, res, next) => {
-  Dog.findById(req.params.id)
-    .then((dog) => {
-      if (dog) {
-        req.dog = dog
+  Animal.findById(req.params.id)
+    .then((animal) => {
+      if (animal) {
+        req.animal = animal
         next();
       } else {
-        next(createError(404, 'Dog not found'))
+        next(createError(404, 'Animal not found'))
       }
     })
     .catch(next)

@@ -3,11 +3,7 @@ const User = require('../models/user.model');
 const createError = require('http-errors');
 
 //modificar para ruta privada
-module.exports.detail = (req, res, next) => {
-  User.findById(req.params.id)
-    .then((user) => res.json(user))
-    .catch(next)
-};
+module.exports.detail = (req, res, next) => res.json(req.user);
 
 module.exports.create = (req, res, next) => {
   User.create(req.body)
@@ -18,15 +14,22 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.update = (req, res, next) => {
-  User.findByIdAndUpdate()
-    .then()
-    .catch()
+  if (req.user.id !== req.params.id) {
+    return next(createError(403, "forbidden"));
+  }
+
+  Object.assign(req.user, req.body);
+
+  req.user
+    .save()
+    .then((user) => res.json(user))
+    .catch(next)
 };
 
 module.exports.delete = (req, res, next) => {
-  User.findByIdAndDelete()
-  .then()
-  .catch()
+  User.deleteOne({_id : req.user.id})
+    .then(() => res.status(204).send())
+    .catch(next)
 };
 
 module.exports.login = (req, res, next) => {
