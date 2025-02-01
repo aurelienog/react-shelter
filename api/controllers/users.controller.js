@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user.model');
 const createError = require('http-errors');
 
-//modificar para ruta privada
+//TODO MAILER
 module.exports.detail = (req, res, next) => res.json(req.user);
 
 module.exports.create = (req, res, next) => {
