@@ -11,10 +11,10 @@ function UsersForm() {
 
   const onUserSubmit = async (user) => {
     try { 
-      setServerError(undefined);
+      setServerError();
       console.debug('Registering...')
-      user = await userService.create(user);
-      navigate('/login', { state : { name: user.name, email: user.email } })
+      const newUser = await userService.create(user);
+      navigate('/login', { state : { name: newUser.name, email: newUser.email } });
     } catch(error) {
         const errors = error.response?.data.errors;
         if (errors) {
@@ -25,11 +25,14 @@ function UsersForm() {
           console.log(error);
           setServerError(error.message)
         }
-      }
+    }
+    
   }
 
   return (
-    <form onSubmit={handleSubmit(onUserSubmit)} className='flex flex-col justify-center p-8'>
+    <form onSubmit={handleSubmit(onUserSubmit)} className='flex flex-col justify-center'>
+
+      {serverError && <div className="border p-4 text-red-600 m-10">{serverError}</div>}
 
       <div className='w-sm mx-auto flex flex-col mb-8'>
         <label htmlFor='name' className='font-bold'>Name</label>
@@ -45,7 +48,7 @@ function UsersForm() {
           }
         })}placeholder='John' className={`border-b cursor-pointer outline-none p-2 hover:border-b-2 border-black focus:font-bold focus:text-black focus:border-2 focus:rounded-lg focus:transition-all ${errors.name ? 'border-red-600 border-2 rounded-lg bg-red-300 transition-all' : ''}` }/>
 
-      { errors.name && <div className='text-red-600 mt-4 font-medium transition-all'>{errors.name?.message}</div> }  
+      { errors.name && <div className='text-red-600 font-medium transition-all'>{errors.name?.message}</div> }  
       </div>
       
 

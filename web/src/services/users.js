@@ -1,6 +1,9 @@
 import http from "./base-api";
 
-const create = (user) => http.post('/users', user);
+const create = async (user) => {
+  const response = await http.post('/users', user); 
+  return response.data;
+};
 
 const login = (user) => http.post('/login', user);
 
