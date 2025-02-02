@@ -13,6 +13,7 @@ const app = express();
 
 const cors = require('./config/cors.config');
 const { session, loadSessionUser } = require('./config/session.config');
+app.use(cors);
 app.use(express.json());
 app.use(logger('dev'));
 app.use(secure.cleanBody);

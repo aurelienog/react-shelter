@@ -4,6 +4,7 @@ const createError = require('http-errors');
 module.exports.cleanBody = (req, res, next) => {
   if (req.body) {
     delete req.body._id;
+    delete req.body.role;
     delete req.body.createdAt;
     delete req.body.updatedAt;
     delete req.body.confirm; //TODO confirmation mail registration
