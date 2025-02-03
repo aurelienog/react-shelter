@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import userService from '../../../services/users';
+import usersService from '../../../services/users';
 
 
 function UsersLogin() {
@@ -9,11 +9,10 @@ function UsersLogin() {
   const { register, handleSubmit, setError, formState: {errors, isValid} } = useForm({mode: 'onBlur', defaultValues: { name: location?.state?.name || "", email: location?.state?.email || "" }});
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(undefined);
-console.log(location);
   const onLoginSubmit = async (user) => {
     try {
       setServerError();
-      user = await userService.login(user);
+      user = await usersService.login(user);
       navigate('/')
     } catch (error) {
       const errors = error.response?.data?.errors;
@@ -32,7 +31,7 @@ console.log(location);
 
 {serverError && <div className="border p-4 text-red-600 m-10">{serverError}</div>}
       
-            <div className='w-sm mx-auto flex flex-col mb-8'>
+            <div className='w-[70%] mx-auto flex flex-col mb-8'>
               <label htmlFor='name' className='font-bold'>Name</label>
               <input id="name" {...register("name", { 
                 required: "Your name is required"
@@ -42,7 +41,7 @@ console.log(location);
             </div>
             
       
-            <div className='w-sm mx-auto font-bold flex flex-col mb-8'>
+            <div className='w-[70%] mx-auto font-bold flex flex-col mb-8'>
               <label htmlFor='email' className='font-bold'>Email</label>
               <input id="email" type='email' {...register("email", { 
                 required: "Your email is required",
@@ -51,7 +50,7 @@ console.log(location);
       
       { errors.email && <div className='text-red-600 font-medium'>{errors.email?.message}</div> } 
             </div>
-            <div className='w-sm mx-auto flex flex-col mb-14'>
+            <div className='w-[70%] mx-auto flex flex-col mb-14'>
               <label htmlFor='password' className='font-bold'>Password</label>
               <input id="password" type="password" {...register("password", { 
                 required: "Your password is required"
@@ -59,9 +58,9 @@ console.log(location);
       
       { errors.password && <div className='text-red-600 font-medium'>{errors.password?.message}</div> }  
             </div>
-            <button type='submit' className={`w-sm mb-4 px-4 py-3 mx-auto border rounded-lg bg-primary text-white transition-all ${!isValid ? 'opacity-30 pointer-events-none' : ''}`}
+            <button type='submit' className={`w-[70%] mb-4 px-4 py-3 mx-auto border rounded-lg bg-primary text-white transition-all ${!isValid ? 'opacity-30 pointer-events-none' : ''}`}
             disabled={!isValid}>Login</button>
-            <button className='underline-offset-2 underline cursor-pointer'><Link to="/users/new">Already have an account? Sign in</Link></button>
+            <button className='w-[70%] mx-auto underline-offset-2 underline cursor-pointer'><Link to="/users/new">Already have an account? Sign in</Link></button>
     </form>
   )
 }
