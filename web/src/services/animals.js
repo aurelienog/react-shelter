@@ -1,14 +1,19 @@
 import http from "./base-api";
 
-const list = () => http.get("/animals");
+const list = (query) => http.get("/animals", {params : query})
+  .then((res) => res.data);
 
-const detail = (id) => http.get(`/animals/${id}`);
+const detail = (id) => http.get(`/animals/${id}`)
+  .then((res) => res.data);
 
-const create = (animal) => http.post('/animals', animal);
+const create = (animal) => http.post('/animals', animal)
+  .then((res) => res.data);
 
-const update = (id, animal) => http.patch(`/animals/${id}`, animal);
+const update = (id, animal) => http.patch(`/animals/${id}`, animal)
+  .then((res) => res.data);
 
-const remove = (id) => http.delete(`/animals/${id}`);
+const remove = (id) => http.delete(`/animals/${id}`)
+  .then((res) => res.data);
 
 export default {
   list,
