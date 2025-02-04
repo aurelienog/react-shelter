@@ -5,13 +5,17 @@ const create = async (user) => {
   return response.data;
 };
 
-const login = (user) => http.post('/login', user);
+const login = (user) => http.post('/login', user)
+.then((res) => res.data);
 
-const detail = (id) => http.get(`/users/${id}`);
+const detail = (id) => http.get(`/users/${id}`)
+.then((res) => res.data);
 
-const update = (id, user) => http.patch(`/users/${id}`, user);
+const update = (id, user) => http.patch(`/users/${id}`, user)
+.then((res) => res.data);
 
-const remove = (id) => http.post(`/users/${id}`);
+const remove = (id) => http.post(`/users/${id}`)
+.then((res) => res.data);
 
 
 export default {

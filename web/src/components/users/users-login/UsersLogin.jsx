@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import usersService from '../../../services/users';
+import { AuthContext } from '../../../contexts/AuthStore';
 
 
 function UsersLogin() {
+  const { onUserChange } = useContext(AuthContext);
   const location = useLocation();
   const { register, handleSubmit, setError, formState: {errors, isValid} } = useForm({mode: 'onBlur', defaultValues: { name: location?.state?.name || "", email: location?.state?.email || "" }});
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(undefined);
+
   const onLoginSubmit = async (user) => {
     try {
       setServerError();
       user = await usersService.login(user);
-      navigate('/')
+      onUserChange(user);
+      console.log(user, 'antes de navigate')
+      navigate('/');
     } catch (error) {
       const errors = error.response?.data?.errors;
       if (errors) {
