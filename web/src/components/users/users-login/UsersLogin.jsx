@@ -17,7 +17,6 @@ function UsersLogin() {
       setServerError();
       user = await usersService.login(user);
       onUserChange(user);
-      console.log(user, 'antes de navigate')
       navigate('/');
     } catch (error) {
       const errors = error.response?.data?.errors;

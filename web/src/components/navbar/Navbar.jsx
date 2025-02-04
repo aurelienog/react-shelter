@@ -31,14 +31,17 @@ function Navbar() {
       <NavLink to="/donate" className={renderNavLinkClassName}><li >Donate</li></NavLink>
 
       { (user?.email) ? (
-        <NavLink to="/profile" className={renderNavLinkClassName}>
-          <li>{user.email} 
-          <button>LOGOUT</button>
-        </li></NavLink> ) : (
+        <li className="flex items-center">
+          <NavLink to="/profile" className={renderNavLinkClassName}>{user.email}</NavLink>
+          <NavLink to="/logout"><img src={logo} className='w-8 aspect-square mx-4'></img></NavLink>
+        </li>
+        ) : (
           <NavLink to="/login" className={renderNavLinkClassName}>
           <li>LOGIN
           <i></i>
         </li></NavLink>
+        
+          
         ) }
       
       </ul>
