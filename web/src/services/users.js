@@ -17,11 +17,15 @@ const update = (id, user) => http.patch(`/users/${id}`, user)
 const remove = (id) => http.post(`/users/${id}`)
 .then((res) => res.data);
 
+const logout = () => http.post('/logout')
+
 
 export default {
   create,
   login,
+  logout,
   detail,
   update,
   remove
+  
 }

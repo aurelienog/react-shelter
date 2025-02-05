@@ -1,15 +1,35 @@
 import React, { useState, useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/img/logo.png';
 import openMenu from '../../assets/img/open-menu.png';
 import closeMenu from '../../assets/img/close-menu.svg';
 import { AuthContext } from '../../contexts/AuthStore';
+import usersService from '../../services/users';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const renderNavLinkClassName = ({ isActive }) => isActive ? 'underline decoration-2 underline-offset-4 font-medium text-black text-gray-600 md:hover:bg-gray-200 md:hover:font-bold w-full text-left md:text-center rounded md:rounded-none p-2 md:p-4' : 'text-gray-600 md:hover:bg-gray-200 md:hover:font-bold w-full text-left md:text-center rounded md:rounded-none p-2 md:p-4';
-  
-  const { user } = useContext(AuthContext);
+  const [serverError, setServerError] = useState(undefined);
+  const { user, logout } = useContext(AuthContext);
+
+  const handleClick = async () => {
+    try {
+      setServerError();
+      console.log(user, "antes logout")
+      usersService.logout(user)
+      console.log(user, "despues logout")
+      navigate("/");
+    } catch (error) {
+      const errors = error.response?.data?.errors;
+      if (errors) {
+        Object.keys(errors)
+          .forEach((inputName) => setError(inputName, { message: errors[inputName] }))
+      } else {
+        setServerError(error.message)
+      }
+    }
+    
+  }
 
   return (
     <nav className='bg-accent/70 p-2 md:p-0'>
@@ -33,7 +53,7 @@ function Navbar() {
       { (user?.email) ? (
         <li className="flex items-center">
           <NavLink to="/profile" className={renderNavLinkClassName}>{user.email}</NavLink>
-          <NavLink to="/logout"><img src={logo} className='w-8 aspect-square mx-4'></img></NavLink>
+          <button onClick={() => logout()}><img src={logo} className='w-8 aspect-square mx-4'></img></button>
         </li>
         ) : (
           <NavLink to="/login" className={renderNavLinkClassName}>

@@ -14,6 +14,7 @@ module.exports.cleanBody = (req, res, next) => {
 };
 
 module.exports.auth = (req, res, next) => {
+  console.log("Session data:", req.session); // 👀 Ver qué contiene
   
   if(!req.session.userId) {
     return next(createError(401, "Not authenticated"));

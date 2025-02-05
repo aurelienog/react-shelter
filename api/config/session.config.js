@@ -10,7 +10,8 @@ module.exports.session = session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: process.env.SESSION_SECURE === 'true'
+    secure: process.env.SESSION_SECURE === 'false', //PRODUCTION PASAR A TRUE
+    sameSite: "lax", //PRODUCTION PASAR A NONE
   },
   store: MongoStore.create({
     mongoUrl: MONGODB_URI,
