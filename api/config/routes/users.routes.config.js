@@ -10,6 +10,7 @@ api.patch('/users/:id', secure.auth, secure.isOwner, users.update);
 api.delete('/users/:id', secure.auth, secure.isOwner, users.delete);
 
 api.post('/login', users.login);
+api.get('/user', users.restore)
 api.post('/logout', secure.auth, users.logout) 
 
 module.exports = api

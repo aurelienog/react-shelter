@@ -67,3 +67,22 @@ module.exports.logout = (req, res, next) => {
     return res.status(204).send();
   })
 };
+
+module.exports.restore = (req, res, next) => {
+  if(!req.session.userId) {
+      return res.status(204).send();
+    }  
+    console.log(req.session.userId);
+  
+    User.findById(req.session.userId)
+      .populate("favoriteAnimals")
+      .then((user) => {
+        if(user) {
+          req.user = user;
+          res.json({session : req.session, ...user.toJSON() })
+        } else {
+          next(createError(401, "User not found"))
+        }
+      })
+      .catch(next);
+};

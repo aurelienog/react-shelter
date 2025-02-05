@@ -18,6 +18,10 @@ const remove = (id) => http.post(`/users/${id}`)
 .then((res) => res.data);
 
 const logout = () => http.post('/logout')
+.then((res) => res.data);
+
+const restore = () => http.get('/user')
+.then((res) => res.data);
 
 
 export default {
@@ -26,6 +30,7 @@ export default {
   logout,
   detail,
   update,
-  remove
+  remove,
+  restore
   
 }
