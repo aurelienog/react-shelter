@@ -3,7 +3,31 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 
 module.exports.list = (req, res, next) => {
-  Animal.find()
+  const criterial = {};
+
+  const filters = [
+    "species",
+    "sex",
+    "size",
+    "weigth",
+    "license",
+    "idealHome",
+    "livingWithChildren",
+    "livingWithDogs",
+    "livingWithCats"
+  ];
+
+  filters.forEach((filter) => {
+    if (req.query[filter]) {
+      criterial[filter] = req.query[filter];
+    }
+  });
+
+  if (req.query.maxAge) {
+    criterial.age = { $lte: parseInt(req.query.maxAge, 10) };
+  }
+
+  Animal.find(criterial)
   .then((animals) => (res.json(animals)))
   .catch(next);
 };

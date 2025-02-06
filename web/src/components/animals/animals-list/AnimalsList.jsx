@@ -1,6 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import animalsService from '../../../services/animals';
 import { useSearchParams } from 'react-router-dom';
+import AnimalItem from '../animals-item/AnimalsItem';
+
+//TODO SERVERERROR
+
+const filters = [
+    "species",
+    "sex",
+    "size",
+    "weigth",
+    "license",
+    "idealHome",
+    "livingWithChildren",
+    "livingWithDogs",
+    "livingWithCats"
+  ];
 
 function AnimalsList() {
   const [searchParams] = useSearchParams();
@@ -8,27 +23,22 @@ function AnimalsList() {
 
   useEffect(() => {
     const query = {};
-    const age = searchParams.get('age')
-    if (age) query.age = age;
+    filters.forEach((f) => {
+      const filter = searchParams.get(`${f}`)
+      filter != null? query[f] = filter : null;
+      
+    });
+    console.log('query params', query)
 
     animalsService.list(query)
-      .then((animals) => setAnimals)
+      .then((animals) => setAnimals(animals))
       .catch(error => console.error())
   }, [searchParams]);
 
-  const animalsBySpecies = animals.reduce((animalsBySpecies, animal) => {
-    if(!animalsBySpecies[`${animal.species}`]) {
-      animalsBySpecies[`${animal.species}`] = [];
-    }
-
-    animalsBySpecies[`${animal.species}`].push(animal);
-    return animalsBySpecies;
-  }, {})
-
   return (
-    <div>
-      {}
-    </div>
+    <section className='grid grid-cols-3 m-8 gap-6'>
+      {animals.map((animal) => <AnimalItem key={animal.id} animal={animal}/>)}
+    </section>
   )
 }
 

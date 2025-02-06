@@ -2,7 +2,7 @@ import React from 'react'
 
 function AnimalItem({animal}) {
   return (
-    <article className=''>
+    <article className='border'>
       <img src={animal.img} alt="" />
       <h3>{animal.name}</h3>
       <p>{animal.sex}</p>
