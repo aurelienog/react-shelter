@@ -3,8 +3,6 @@ import animalsService from '../../../services/animals';
 import { useSearchParams } from 'react-router-dom';
 import AnimalItem from '../animals-item/AnimalsItem';
 
-//TODO SERVERERROR
-
 const filters = [
     "species",
     "sex",
@@ -28,7 +26,6 @@ function AnimalsList() {
       filter != null? query[f] = filter : null;
       
     });
-    console.log('query params', query)
 
     animalsService.list(query)
       .then((animals) => setAnimals(animals))
