@@ -17,3 +17,5 @@ const storage = new CloudinaryStorage({
 });
 
 module.exports = multer({ storage: storage });
+
+//TODO eliminar fotos del storage si se elimina el modelo
