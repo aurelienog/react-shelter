@@ -20,7 +20,6 @@ app.use(secure.cleanBody);
 app.use(session);
 app.use(loadSessionUser);
 app.use(helmet());
-
 const apiUsers = require('./config/routes/users.routes.config');
 app.use("/api/v1", apiUsers);
 

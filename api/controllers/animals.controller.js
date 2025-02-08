@@ -33,6 +33,9 @@ module.exports.list = (req, res, next) => {
 };
 
 module.exports.create =(req, res, next) => {
+  console.log(req.body.age, typeof req.body.age)
+  req.body.images = req.files.map(file => file.path);
+  console.log(req.body);
   Animal.create(req.body)
   .then((animal) => res.status(201).json(animal))
   .catch(next);

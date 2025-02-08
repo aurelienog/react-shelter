@@ -19,7 +19,7 @@ function Navbar() {
           <Link to="/">
             <img src={logo} alt="Logo" className='w-10' />
           </Link>
-          <button onClick={() => setIsOpen(!isOpen)} className='text-gray-700 md:hidden'>
+          <button onClick={() => setIsOpen(!isOpen)} aria-label={`${isOpen? 'close menu' : 'open menu' }`} className='text-gray-700 md:hidden'>
             <img src={`${isOpen? closeMenu : openMenu }`} alt="Logo" className='w-10 h-10' />
           </button>
         </div>
@@ -38,7 +38,7 @@ function Navbar() {
         ) : (
           <NavLink to="/login" className={renderNavLinkClassName}>
           <li>LOGIN
-          <i></i>
+          <svg aria-hidden="true"></svg>
         </li></NavLink>
         
           

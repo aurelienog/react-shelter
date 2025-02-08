@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
   species: { type: String, required: [true, "species is required"], trim: true },
   images: [
-    { type: String, required: [false, "Animal photos are required"]} // turn true con multer
+    { type: String, required: [true, "Animal photos are required"]}
   ],
   name : {type : String, required: [true, "Animal name is required"],  trim: true, minlength: 2, maxlength: 50 },
   age: { type: Number, required: [true, "Animal age is required"], min: [0, "Age cannot be negative"]  },
