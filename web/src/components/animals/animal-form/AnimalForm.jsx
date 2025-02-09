@@ -49,7 +49,7 @@ function AnimalForm() {
         <legend>Species<span className='text-red-500'>*</span></legend>
           <div>
             <label className='cursor-pointer'>Dog
-              <input type="radio" name="species" value="cat" {...register("species")} className='cursor-pointer'/>
+              <input type="radio" name="species" value="dog" {...register("species")} className='cursor-pointer'/>
             </label>
             
             <label className='cursor-pointer'>Cat

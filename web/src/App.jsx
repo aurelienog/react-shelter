@@ -6,6 +6,7 @@ import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import AnimalsPage from "./pages/AnimalsPage";
 import CreateAnimalPage from "./pages/CreateAnimalPage";
+import AnimalPage from "./pages/AnimalPage";
 
 function App() {
 
@@ -20,6 +21,8 @@ function App() {
         <Route path="/login" element={<LoginPage />}/>
         <Route path="/animals" element={<AnimalsPage />}/>
         <Route path="/animals/new" element={<CreateAnimalPage />}/>
+        <Route path="/animals/:id" element={<AnimalPage/>}/>
+        <Route path="/animals/:id/edit" element={<CreateAnimalPage />}/>
       </Routes>
 
       <Footer/>

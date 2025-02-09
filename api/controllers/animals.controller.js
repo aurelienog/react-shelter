@@ -36,10 +36,9 @@ module.exports.create =(req, res, next) => {
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ error: "Images are required" });
   }
-  console.log(typeof req.body.age)
+  console.log(typeof req.body.license)
   req.body.age = parseInt(req.body.age);
   req.body.weight = parseInt(req.body.weight);
-  console.log(typeof req.body.age,)
   req.body.images = req.files.map(file => file.path);
   console.log(req.body);
   Animal.create(req.body)
