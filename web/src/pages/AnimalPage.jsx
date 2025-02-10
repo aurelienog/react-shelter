@@ -3,6 +3,7 @@ import PageLayout from '../components/layout/PageLayout'
 import AnimalDetail from '../components/animals/animal-detail/AnimalDetail'
 import { useParams } from 'react-router-dom';
 import animalsService from '../services/animals'
+import AnimalCarousel from '../components/animals/animal-carousel/AnimalCarousel';
 
 function AnimalPage() {
   const [animal, setAnimal] = useState();
@@ -21,8 +22,15 @@ function AnimalPage() {
   }, [id])
 
   return (
-    <PageLayout title={"Learn about me"}>
-      <AnimalDetail { ...animal }/>
+    <PageLayout title={`I'm ${animal?.name}`}>
+      <div className='p-8 bg-accent/40 mx-auto'>
+        <AnimalCarousel { ...animal} />
+      </div>
+      <div className='p-8 mx-auto'>
+        <AnimalDetail { ...animal }/>
+      </div>
+      
+      
     </PageLayout>
   )
 }
