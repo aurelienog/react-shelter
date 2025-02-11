@@ -23,10 +23,10 @@ function AnimalDetail({ name, species, sex, age, breed, weight, license, size, i
           <li className='flex flex-col rounded-lg bg-white/80 p-2'><span className='font-bold'>Living with dogs </span>{livingWithDogs}</li>
           <li className='flex flex-col rounded-lg bg-white/80 p-2'><span className='font-bold'>Living with cats </span>{livingWithCats}</li>
         </ul>
-        <div>
-          <p>Apply to adopt</p>
-          <button></button>
-          <button></button>
+        <div className=' bg-white/80 rounded-lg p-8 flex flex-col gap-8 justify-items-center items-center'>
+          <p className='text-center'>Apply to adopt</p>
+          <button className='inline-block w-[80%] px-2 py-2 border rounded-lg'>Start your application</button>
+          <button className='inline-block w-[80%] px-2 py-2 border rounded-lg'>Add to favourites</button>
         </div>
       </div>
     </div>
