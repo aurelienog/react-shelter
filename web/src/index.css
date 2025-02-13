@@ -9,3 +9,13 @@
   --color-accent: #cf687e;
 }
 
+
+.circle-clip{
+  opacity: 1;
+  clip-path: circle(95% at 25% 0);
+}
+
+.circle-clip-transparent{
+  opacity: 0.5;
+  clip-path: circle(95% at 35% 0);
+}

@@ -34,7 +34,7 @@ function AnimalsList() {
 
   return (
     <section className='grid grid-cols-3 m-8 gap-6'>
-      {animals.map((animal) => <AnimalItem key={animal.id} animal={animal}/>)}
+      {animals.map((animal) => <AnimalItem key={animal.id} {...animal}/>)}
     </section>
   )
 }
